@@ -1,0 +1,29 @@
+{
+  "name": "@zhangjiluo.com/standard-prettier",
+  "version": "1.0.0-alpha.1",
+  "scripts": {
+    "build": "unbuild",
+    "prepublishOnly": "pnpm build"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  },
+  "peerDependencies": {
+    "prettier": ">= 3.0.0"
+  }
+}

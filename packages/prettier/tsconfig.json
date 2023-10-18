@@ -1,9 +1,11 @@
 {
-  "include": ["source"],
+  "include": ["src"],
   "compilerOptions": {
+    "lib": ["ESNext"],
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
+    "moduleResolution": "node",
     "resolveJsonModule": true
   }
 }
