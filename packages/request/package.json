@@ -1,0 +1,35 @@
+{
+  "name": "@zhangjiluo.com/request",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "unbuild",
+    "prepublishOnly": "pnpm build"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "http",
+    "request",
+    "ajax",
+    "axios",
+    "fetch"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0"
+  }
+}
