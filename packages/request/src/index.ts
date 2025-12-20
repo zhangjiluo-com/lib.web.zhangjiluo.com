@@ -1,8 +1,9 @@
 import { Client } from './client'
 
-export { version } from '../package.json'
 export { Client } from './client'
 
-export default new Client()
+export { version } from '../package.json'
 
 export type * from './interface'
+
+export default new Client()
