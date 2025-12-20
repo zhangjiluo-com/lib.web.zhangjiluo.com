@@ -1,4 +1,4 @@
-import type * as LI from "./interface";
+import type * as LI from './interface'
 import {
   appendURLSearchParams,
   getHeaders,
@@ -6,70 +6,70 @@ import {
   joinURLFragment,
   mergeConfig,
   mergeRequestOptions,
-} from "./utils";
+} from './utils'
 
 export class Client {
-  #config: LI.ClientConfig = {};
+  #config: LI.ClientConfig = {}
 
   /**
    * 客户端 HTTP 请求库
    * @param {LI.ClientConfig} [config] 客户端配置项
    */
   constructor(config?: LI.ClientConfig) {
-    this.config(config);
+    this.config(config)
   }
 
   #request<UserResponse = unknown>(options: Partial<LI.RequestOptions>) {
     return new Promise<UserResponse>(async (resolve, reject) => {
       // 构建请求配置
-      const compoundedOptions = mergeRequestOptions(this.#config, options);
+      const compoundedOptions = mergeRequestOptions(this.#config, options)
 
-      let endOptions = compoundedOptions;
+      let endOptions = compoundedOptions
       if (this.#config.onBeforeRequest) {
-        endOptions = await this.#config.onBeforeRequest?.(compoundedOptions);
+        endOptions = await this.#config.onBeforeRequest?.(compoundedOptions)
       }
 
-      handleJSONOptions(endOptions);
+      handleJSONOptions(endOptions)
 
-      const xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest()
 
       // 添加监听器
-      xhr.onabort = reject;
-      xhr.onerror = reject;
-      xhr.ontimeout = reject;
-      xhr.onprogress = endOptions.onDownloadProgress ?? null;
+      xhr.onabort = reject
+      xhr.onerror = reject
+      xhr.ontimeout = reject
+      xhr.onprogress = endOptions.onDownloadProgress ?? null
 
       if (options.signal) {
-        const { signal } = options;
+        const { signal } = options
         const onAbort = () => {
-          signal.removeEventListener("abort", onAbort);
-          xhr.abort();
-        };
-        signal.addEventListener("abort", onAbort);
+          signal.removeEventListener('abort', onAbort)
+          xhr.abort()
+        }
+        signal.addEventListener('abort', onAbort)
       }
 
-      const url = joinURLFragment(endOptions.base!, endOptions.url);
+      const url = joinURLFragment(endOptions.base!, endOptions.url)
 
-      appendURLSearchParams(url.searchParams, endOptions.search);
+      appendURLSearchParams(url.searchParams, endOptions.search)
 
-      xhr.open(endOptions.method, url, true);
+      xhr.open(endOptions.method, url, true)
 
       // 设置请求头
       Object.entries(endOptions.headers).forEach(([key, value]) => {
         if (value === void 0) {
-          return;
+          return
         }
-        xhr.setRequestHeader(key, value);
-      });
+        xhr.setRequestHeader(key, value)
+      })
 
-      xhr.responseType = endOptions.responseType;
-      xhr.withCredentials = endOptions.withCredentials || false;
-      xhr.timeout = endOptions.timeout || 0;
+      xhr.responseType = endOptions.responseType
+      xhr.withCredentials = endOptions.withCredentials || false
+      xhr.timeout = endOptions.timeout || 0
       if (endOptions.overrideMime) {
-        xhr.overrideMimeType(endOptions.overrideMime);
+        xhr.overrideMimeType(endOptions.overrideMime)
       }
       if (endOptions.onUploadProgress) {
-        xhr.upload.onprogress = endOptions.onUploadProgress;
+        xhr.upload.onprogress = endOptions.onUploadProgress
       }
 
       xhr.onreadystatechange = () => {
@@ -79,26 +79,26 @@ export class Client {
             headers: getHeaders(xhr.getAllResponseHeaders()),
             body: xhr.response,
             options: endOptions,
-          };
+          }
           if (xhr.status < 100) {
-            reject(response);
+            reject(response)
           }
           try {
-            const { onResponse } = this.#config;
+            const { onResponse } = this.#config
 
             resolve(
               (onResponse ? onResponse(response) : response) as UserResponse
-            );
+            )
           } catch (error) {
-            response.error = error;
-            reject(response);
+            response.error = error
+            reject(response)
           }
         }
-      };
+      }
 
       // 发送请求
-      xhr.send((endOptions.payload as XMLHttpRequestBodyInit) ?? null);
-    });
+      xhr.send((endOptions.payload as XMLHttpRequestBodyInit) ?? null)
+    })
   }
 
   /**
@@ -107,7 +107,7 @@ export class Client {
    */
   config(config?: LI.ClientConfig) {
     if (config) {
-      this.#config = mergeConfig(this.#config, config);
+      this.#config = mergeConfig(this.#config, config)
     }
   }
 
@@ -120,9 +120,9 @@ export class Client {
   put<Response = unknown, Payload = unknown>(
     url: string,
     payload?: Payload,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "payload">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'payload'>>
   ) {
-    return this.#request<Response>({ ...options, method: "PUT", url, payload });
+    return this.#request<Response>({ ...options, method: 'PUT', url, payload })
   }
 
   /**
@@ -137,14 +137,14 @@ export class Client {
   >(
     url: string,
     search?: Search,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "search">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'search'>>
   ) {
     return this.#request<Response>({
       ...options,
-      method: "DELETE",
+      method: 'DELETE',
       url,
       search,
-    });
+    })
   }
 
   /**
@@ -156,14 +156,14 @@ export class Client {
   patch<Response = unknown, Payload = unknown>(
     url: string,
     payload?: Payload,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "payload">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'payload'>>
   ) {
     return this.#request<Response>({
       ...options,
-      method: "PATCH",
+      method: 'PATCH',
       url,
       payload,
-    });
+    })
   }
 
   /**
@@ -176,10 +176,10 @@ export class Client {
     url: string,
     search?: Search,
     options?: Partial<
-      Omit<LI.RequestOptions, "method" | "url" | "search" | "payload">
+      Omit<LI.RequestOptions, 'method' | 'url' | 'search' | 'payload'>
     >
   ) {
-    return this.#request<Response>({ ...options, method: "GET", url, search });
+    return this.#request<Response>({ ...options, method: 'GET', url, search })
   }
 
   /**
@@ -191,14 +191,14 @@ export class Client {
   post<Response = unknown, Payload = unknown>(
     url: string,
     payload?: Payload,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "payload">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'payload'>>
   ) {
     return this.#request<Response>({
       ...options,
-      method: "POST",
+      method: 'POST',
       url,
       payload,
-    });
+    })
   }
 
   /**
@@ -210,9 +210,9 @@ export class Client {
   head<Response = unknown, Search extends LI.RequestSearch = LI.RequestSearch>(
     url: string,
     search?: Search,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "payload">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'payload'>>
   ) {
-    return this.#request<Response>({ ...options, method: "HEAD", url, search });
+    return this.#request<Response>({ ...options, method: 'HEAD', url, search })
   }
 
   /**
@@ -227,13 +227,13 @@ export class Client {
   >(
     url: string,
     search?: Search,
-    options?: Partial<Omit<LI.RequestOptions, "method" | "url" | "payload">>
+    options?: Partial<Omit<LI.RequestOptions, 'method' | 'url' | 'payload'>>
   ) {
     return this.#request<Response>({
       ...options,
-      method: "OPTIONS",
+      method: 'OPTIONS',
       url,
       search,
-    });
+    })
   }
 }
