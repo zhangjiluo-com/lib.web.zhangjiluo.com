@@ -1,10 +1,9 @@
 {
   "scripts": {},
-  "private": true,
-  "devDependencies": {
-    "@zhangjiluo.com/standard-prettier": "workspace:1.0.0-alpha.1",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0"
+  "dependencies": {
+    "@zhangjiluo.com/prettier": "workspace:*",
+    "typescript": "^5.9.3",
+    "unbuild": "^3.6.1"
   },
-  "prettier": "@zhangjiluo.com/standard-prettier"
+  "prettier": "@zhangjiluo.com/prettier"
 }

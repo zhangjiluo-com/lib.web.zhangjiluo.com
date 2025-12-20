@@ -1,21 +1,70 @@
-# 固定移除文件
+# 由 https://www.zhangjiluo.com 提供
+# 订阅地址 https://gist.github.com/zhangjiluo-com/84b2c5f56c339d044fe4f38fc4540606
+# 了解更多关于 gitignore 文件信息: https://help.github.com/articles/ignoring-files/
+# Provided by https://www.zhangjiluo.com
+# Subscribe from https://gist.github.com/zhangjiluo-com/84b2c5f56c339d044fe4f38fc4540606
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# 本地环境依赖项 (Dependencies)
 node_modules
-.DS_Store
+jspm_packages/
+.pnpm-store
 
-# 所有日志文件
+# 日志文件 (Logs)
+logs
 *.log
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# 所有本地文件
+# 本地环境文件 (Local Files)
 .env
+.DS_Store
+*.pem
 *.local
 
-# 打包临时文件
-dist
-
-# 编辑器配置文件
+# 开发环境、编辑器配置等 (IDE)
+.fleet
+.lightly
 .idea
-.vscode/*
+.vscode/**/*
 !.vscode/settings.json
+!.vscode/extensions.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
+.history
+project.private.config.json
+
+# 构建系统相关 (Build)
+dist
+dist-ssr
+*.out
+*.cache
+.npm
+*.tgz
+.node_repl_history
+.swc
+
+# 微信小程序
+miniprogram_npm
+
+# 其它 (Others)
+.c_bin
+.classes
+
+# Nuxt 项目 (NuxtJS Framework)
+# .output
+# .data
+# .nuxt
+# .nitro
+
+# Next 项目 (NextJS Framework)
+# .next
+# out
+# build
+# .vercel
+# next-env.d.ts
+
+lib
