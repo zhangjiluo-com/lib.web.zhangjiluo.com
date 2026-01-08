@@ -30,9 +30,16 @@ const config: Config = {
 }
 
 export const {
+  printWidth,
+  useTabs,
   semi,
   singleQuote,
+  quoteProps,
+  jsxSingleQuote,
+  trailingComma,
+  bracketSameLine,
   proseWrap,
+  arrowParens,
   htmlWhitespaceSensitivity,
   overrides,
 } = config
