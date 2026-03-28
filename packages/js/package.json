@@ -1,0 +1,6 @@
+{
+  "name": "@zhangjiluo.com/js",
+  "version": "0.0.0",
+  "main": "index.js",
+  "packageManager": "pnpm@10.25.0"
+}
